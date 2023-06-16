@@ -1,0 +1,79 @@
+// 左モーター
+#define PIN_IN1 7
+#define PIN_IN2 8
+// 右モーター
+#define PIN_IN3 4
+#define PIN_IN4 5
+// PWM(速度調整)
+#define PIN_VREF 9 
+//ボタン
+#define PIN_IN5 10
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(PIN_IN1,OUTPUT); 
+  pinMode(PIN_IN2,OUTPUT);
+  pinMode(PIN_IN3,OUTPUT);
+  pinMode(PIN_IN4,OUTPUT);
+  //ボタン
+  pinMode(PIN_IN5,INPUT);
+  //毎回ランダムにするおまじない
+  randomSeed(analogRead(0));
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+  if(digitalRead(PIN_IN5)== HIGH){
+    
+      
+    int rand_switch = random(0,2);
+    int rand_switch2 = random(0,2);
+    //速度MAX
+    analogWrite(PIN_VREF,255);    
+    //左モータ
+    if(rand_switch ==0){
+      //前進
+      forward_motor(PIN_IN1,PIN_IN2);
+    }
+    else
+    {
+      //後進
+      back_motor(PIN_IN1,PIN_IN2);
+    }
+
+    //右モーター
+    if(rand_switch2 ==0){
+      //前進
+      forward_motor(PIN_IN3,PIN_IN4);
+    }
+    else
+    {
+      //後進
+      back_motor(PIN_IN3,PIN_IN4);
+    }
+  }
+  else  
+  {
+    stop_motor(PIN_IN1,PIN_IN2,PIN_IN3,PIN_IN4);
+  }
+}
+
+void forward_motor(int a,int b){
+  digitalWrite(a,HIGH);
+  digitalWrite(b,LOW);  
+  delay(5000);  
+}
+
+void back_motor(int a,int b){
+  digitalWrite(a,LOW);
+  digitalWrite(b,HIGH);
+  delay(5000);
+}
+
+void stop_motor(int a,int b,int c,int d){
+  digitalWrite(a,LOW);
+  digitalWrite(b,LOW);
+  digitalWrite(c,LOW);
+  digitalWrite(d,LOW);
+}
